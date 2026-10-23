@@ -1,0 +1,68 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "Frontend React Developer",
+      "body": "Looking for a skilled React developer to build scalable web applications using Vite and modern UI libraries.",
+      "category": "Engineering",
+      "company": "TechCorp 1",
+      "location": "Remote"
+    },
+    {
+      "id": 2,
+      "title": "UI/UX Product Designer",
+      "body": "Design intuitive user experiences, wireframes, and high-fidelity prototypes for SaaS dashboard products.",
+      "category": "Design",
+      "company": "DesignStudio",
+      "location": "Hybrid"
+    },
+    {
+      "id": 3,
+      "title": "Digital Marketing Specialist",
+      "body": "Manage campaigns, SEO optimization, and social media outreach to drive user acquisition and engagement.",
+      "category": "Marketing",
+      "company": "GrowthMedia",
+      "location": "Remote"
+    },
+    {
+      "id": 4,
+      "title": "Junior Data Analyst",
+      "body": "Analyze large datasets, generate insights, and build interactive reports using Python and SQL.",
+      "category": "Data Science",
+      "company": "DataMetrics",
+      "location": "Hybrid"
+    },
+    {
+      "id": 5,
+      "title": "Full Stack Engineer",
+      "body": "Develop end-to-end features using Node.js, Express, and React with robust state management.",
+      "category": "Engineering",
+      "company": "CodeCraft",
+      "location": "Remote"
+    },
+    {
+      "id": 6,
+      "title": "Brand Identity Designer",
+      "body": "Create stunning brand assets, typography systems, and marketing visuals for global clients.",
+      "category": "Design",
+      "company": "VisualArt",
+      "location": "Remote"
+    },
+    {
+      "id": 7,
+      "title": "Growth Hacker",
+      "body": "Experiment with viral loops, landing page optimization, and funnels to scale user growth rapidly.",
+      "category": "Marketing",
+      "company": "StartupBoost",
+      "location": "Hybrid"
+    },
+    {
+      "id": 8,
+      "title": "Backend API Developer",
+      "body": "Build secure RESTful APIs, manage databases, and handle server-side architecture efficiently.",
+      "category": "Engineering",
+      "company": "CloudScale",
+      "location": "Remote"
+    }
+  ]
+}
