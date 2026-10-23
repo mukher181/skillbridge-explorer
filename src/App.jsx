@@ -90,21 +90,20 @@ export default function App() {
   if (loading) {
     return (
       <div className="app-layout">
-        <nav className="navbar">
+        <nav className="navbar" aria-label="Main Navigation">
           <div className="nav-brand">SkillBridge <span>Explorer</span></div>
         </nav>
-        <div className="loading-state">
-          <div className="spinner"></div>
+        <main className="loading-state">
+          <div className="spinner" aria-hidden="true"></div>
           <p>Loading initial remote opportunities...</p>
-        </div>
+        </main>
       </div>
     );
   }
 
   return (
     <div className="app-layout">
-      {/* Navbar Added */}
-      <nav className="navbar">
+      <nav className="navbar" aria-label="Main Navigation">
         <div className="nav-brand">SkillBridge <span>Explorer</span></div>
         <div className="nav-links">
           <a href="#home" className="active">Home</a>
@@ -113,27 +112,31 @@ export default function App() {
         </div>
       </nav>
 
-      <div className="main-container">
+      <main className="main-container">
         <header className="explorer-header">
           <h1>Find Your Next Tech Opportunity</h1>
           <p>Discover and filter professional tech roles and remote contracts instantly with live API sync.</p>
         </header>
 
         <div className="controls-bar">
+          <label htmlFor="search-input" className="sr-only">Search opportunities</label>
           <input 
+            id="search-input"
             type="text" 
             placeholder="Search by keyword, title, company or category..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="search-input"
+            aria-label="Search opportunities by keyword, title, company or category"
           />
 
-          <div className="category-filters">
+          <div className="category-filters" role="group" aria-label="Category filters">
             {['All', 'Engineering', 'Design', 'Consulting', 'Security'].map(cat => (
               <button
                 key={cat}
                 className={`filter-btn ${selectedCategory === cat ? 'active' : ''}`}
                 onClick={() => handleCategoryChange(cat)}
+                aria-pressed={selectedCategory === cat}
               >
                 {cat}
               </button>
@@ -141,53 +144,57 @@ export default function App() {
           </div>
         </div>
 
-        {filteredItems.length === 0 ? (
-          <div className="empty-state">
-            <h3>🔍 No Results Match Your Search</h3>
-            <p>Try adjusting your search keywords or category filters.</p>
-          </div>
-        ) : (
-          <>
-            <div className="listings-grid">
-              {currentItems.map(item => (
-                <div key={item.id} className="listing-card">
-                  <div className="card-top">
-                    <span className="badge">{item.category}</span>
-                    <span className="location">{item.location}</span>
-                  </div>
-                  <h3>{item.title}</h3>
-                  <p className="company">{item.company}</p>
-                  <p className="desc">{item.description}</p>
-                </div>
-              ))}
+        {/* Live region to announce results change to screen readers */}
+        <div aria-live="polite" aria-atomic="true">
+          {filteredItems.length === 0 ? (
+            <div className="empty-state">
+              <h3>🔍 No Results Match Your Search</h3>
+              <p>Try adjusting your search keywords or category filters.</p>
             </div>
-
-            {totalPages > 1 && (
-              <div className="pagination">
-                <button 
-                  disabled={currentPage === 1} 
-                  onClick={() => setCurrentPage(p => p - 1)}
-                  className="page-btn"
-                >
-                  Previous
-                </button>
-                <span>Page {currentPage} of {totalPages}</span>
-                <button 
-                  disabled={currentPage === totalPages} 
-                  onClick={() => setCurrentPage(p => p + 1)}
-                  className="page-btn"
-                >
-                  Next
-                </button>
+          ) : (
+            <>
+              <div className="listings-grid">
+                {currentItems.map(item => (
+                  <article key={item.id} className="listing-card">
+                    <div className="card-top">
+                      <span className="badge">{item.category}</span>
+                      <span className="location">{item.location}</span>
+                    </div>
+                    <h2>{item.title}</h2>
+                    <p className="company">{item.company}</p>
+                    <p className="desc">{item.description}</p>
+                  </article>
+                ))}
               </div>
-            )}
-          </>
-        )}
-      </div>
 
-      {/* Footer Added */}
+              {totalPages > 1 && (
+                <nav className="pagination" aria-label="Pagination Navigation">
+                  <button 
+                    disabled={currentPage === 1} 
+                    onClick={() => setCurrentPage(p => p - 1)}
+                    className="page-btn"
+                    aria-label="Go to previous page"
+                  >
+                    Previous
+                  </button>
+                  <span>Page {currentPage} of {totalPages}</span>
+                  <button 
+                    disabled={currentPage === totalPages} 
+                    onClick={() => setCurrentPage(p => p + 1)}
+                    className="page-btn"
+                    aria-label="Go to next page"
+                  >
+                    Next
+                  </button>
+                </nav>
+              )}
+            </>
+          )}
+        </div>
+      </main>
+
       <footer className="footer">
-        <p>&copy; 2026 SkillBridge Explorer. All rights reserved by Mukher.</p>
+        <p>&copy; 2026 SkillBridge Explorer. All rights reserved. Built with React & Vite.</p>
       </footer>
     </div>
   );
