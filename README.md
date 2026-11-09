@@ -5,7 +5,7 @@ A production-grade React application featuring asynchronous data fetching, 300ms
 ---
 
 ## 🌐 Live Deployment Link
-- **Production URL:** [https://skillbridge-explorer-git-main-mukhers-projects.vercel.app](https://skillbridge-explorer-git-main-mukhers-projects.vercel.app)
+- **Production URL:** [https://skillbridge-explorer.vercel.app/](https://skillbridge-explorer.vercel.app/)
 
 ---
 
