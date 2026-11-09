@@ -3,8 +3,8 @@
 > A high-performance, accessible, and modern web frontend designed to centralize verified tech internships, remote contracts, and early-career professional opportunities for students.
 
 ## 🚀 Live Demo & Deployment
-- **Live URL**: [Deploy on Vercel / Netlify](https://your-deployment-url.vercel.app) *(Simulated / Public)*
-- **Repository**: [GitHub Repository](https://github.com/your-username/skillbridge-explorer)
+- **Live URL**: [Vercel](https://skillbridge-explorer.vercel.app/) *(Simulated / Public)*
+- **Repository**: [GitHub Repository](https://github.com/mukher181/skillbridge-explorer.git)
 
 ---
 
