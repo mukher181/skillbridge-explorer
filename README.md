@@ -8,38 +8,14 @@
 
 ---
 
-## 📂 Project Structure
-**```text**
-skillbridge-explorer/
-├── public/                 # Static assets & favicon
-├── src/
-│   ├── components/         # Reusable UI components (Navbar, Footer, Cards, etc.)
-│   ├── pages/              # Route views (Home, Internships, Detail, Apply, MyApplications, 404)
-│   ├── hooks/              # Custom React hooks (Data fetching & LocalStorage sync)
-│   ├── __tests__/          # Vitest & RTL automated test suite
-│   ├── App.jsx             # Main routing & application layout
-│   ├── App.css             # Advanced SaaS styling, animations, & glassmorphism
-│   └── main.jsx            # React root entry point
-├── .env.example            # Environment variables template
-├── .gitignore              # Ignored node_modules, build outputs, & env files
-├── package.json            # Project dependencies & scripts
-└── README.md               # Complete project documentation
----
-
-## 🛠️ Tech Stack & Tools
-- **React (v18+)** (`useState`, `useEffect`, `useMemo`)
-- **Vite** (Build tool & bundler)
-- **CSS3** (Modern responsive layout with clean UI theme, Navbar, and Footer)
-- **Public API:** JSONPlaceholder Users API (`https://jsonplaceholder.typicode.com/users`) simulating professional opportunities, with a built-in offline fallback mock dataset.
-- **Audit Tools:** Chrome Lighthouse, axe DevTools, WebAIM Contrast Checker
-- **Frontend:** React, Vite, JavaScript (ES6+), Modern CSS (Flexbox & CSS Grid)
-- **Testing & Quality:** Vitest, React Testing Library, Lighthouse
-- **Deployment Platform:** Vercel / Netlify (with secure environment variable management)
-- **Framework**: React 18 (Vite)
+## 🛠️ Tech Stack & Architecture
+- **Frontend Framework**: React 18 (with Hooks: `useState`, `useEffect`, `useMemo`)
+- **Bundler & Tooling**: Vite (ES6+, modern JavaScript)
 - **Routing**: React Router DOM (v6)
-- **Styling**: Custom modern CSS (Glassmorphism, High-contrast SaaS aesthetic, CSS Variables)
-- **Testing**: Vitest & React Testing Library (RTL)
-- **API**: JSONPlaceholder (Simulated mock data source with robust fallback handling)
+- **Styling**: Custom Modern CSS (Glassmorphism, High-contrast SaaS aesthetic, CSS Variables, Flexbox & CSS Grid, responsive Navbar & Footer)
+- **Data Source**: JSONPlaceholder Users API (`https://jsonplaceholder.typicode.com/users`) simulating professional opportunities, backed by a built-in offline fallback mock dataset.
+- **Testing & Quality Assurance**: Vitest, React Testing Library (RTL), Chrome Lighthouse, axe DevTools, WebAIM Contrast Checker
+- **Deployment Platform**: Vercel / Netlify (with secure environment variable management via `.env.example`)
 
 ---
 
