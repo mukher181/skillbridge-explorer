@@ -1,12 +1,29 @@
-# 🚀 SkillBridge Explorer — API-Integrated Search, Filter & Production Release
+# SkillBridge — Student Internship & Opportunity Discovery Platform
 
-A production-grade React application featuring asynchronous data fetching, 300ms debounced search, category filtering, pagination, distinct UI states (loading, error, and empty states), and WCAG 2.1 AA accessibility compliance.
+> A high-performance, accessible, and modern web frontend designed to centralize verified tech internships, remote contracts, and early-career professional opportunities for students.
+
+## 🚀 Live Demo & Deployment
+- **Live URL**: [Deploy on Vercel / Netlify](https://your-deployment-url.vercel.app) *(Simulated / Public)*
+- **Repository**: [GitHub Repository](https://github.com/your-username/skillbridge-explorer)
 
 ---
 
-## 🌐 Live Deployment Link
-- **Production URL:** [https://skillbridge-explorer.vercel.app/](https://skillbridge-explorer.vercel.app/)
-
+## 📂 Project Structure
+**```text**
+skillbridge-explorer/
+├── public/                 # Static assets & favicon
+├── src/
+│   ├── components/         # Reusable UI components (Navbar, Footer, Cards, etc.)
+│   ├── pages/              # Route views (Home, Internships, Detail, Apply, MyApplications, 404)
+│   ├── hooks/              # Custom React hooks (Data fetching & LocalStorage sync)
+│   ├── __tests__/          # Vitest & RTL automated test suite
+│   ├── App.jsx             # Main routing & application layout
+│   ├── App.css             # Advanced SaaS styling, animations, & glassmorphism
+│   └── main.jsx            # React root entry point
+├── .env.example            # Environment variables template
+├── .gitignore              # Ignored node_modules, build outputs, & env files
+├── package.json            # Project dependencies & scripts
+└── README.md               # Complete project documentation
 ---
 
 ## 🛠️ Tech Stack & Tools
@@ -18,6 +35,11 @@ A production-grade React application featuring asynchronous data fetching, 300ms
 - **Frontend:** React, Vite, JavaScript (ES6+), Modern CSS (Flexbox & CSS Grid)
 - **Testing & Quality:** Vitest, React Testing Library, Lighthouse
 - **Deployment Platform:** Vercel / Netlify (with secure environment variable management)
+- **Framework**: React 18 (Vite)
+- **Routing**: React Router DOM (v6)
+- **Styling**: Custom modern CSS (Glassmorphism, High-contrast SaaS aesthetic, CSS Variables)
+- **Testing**: Vitest & React Testing Library (RTL)
+- **API**: JSONPlaceholder (Simulated mock data source with robust fallback handling)
 
 ---
 

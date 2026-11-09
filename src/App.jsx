@@ -1,201 +1,96 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import HomePage from './pages/HomePage';
+import InternshipsPage from './pages/InternshipsPage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import DetailPage from './pages/DetailPage';
+import ApplyPage from './pages/ApplyPage';
+import MyApplicationsPage from './pages/MyApplicationsPage';
+import NotFoundPage from './pages/NotFoundPage';
 import './App.css';
+
+const FALLBACK_OPPORTUNITIES = [
+  { id: 'fb-1', title: 'Senior Cybersecurity Specialist', description: 'Protect cloud infrastructure and audit application vulnerabilities.', category: 'Security', company: 'SecurGuard Systems', location: 'On-site (Fallback)' },
+  { id: 'fb-2', title: 'Lead Cloud DevOps Architect', description: 'Design and manage automated CI/CD pipelines and Docker containers.', category: 'Engineering', company: 'CloudScale Global', location: 'Remote (Fallback)' },
+  { id: 'fb-3', title: 'Product Design Lead', description: 'Drive user research cycles and build scalable design systems.', category: 'Design', company: 'PixelCraft Studio', location: 'Hybrid (Fallback)' },
+  { id: 'fb-4', title: 'Enterprise Solutions Consultant', description: 'Bridge client technical requirements with agile engineering squads.', category: 'Consulting', company: 'Apex Advisory', location: 'Remote (Fallback)' }
+];
 
 export default function App() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [myApplications, setMyApplications] = useState(() => {
+    const saved = localStorage.getItem('skillbridge_applications');
+    return saved ? JSON.parse(saved) : [];
+  });
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  useEffect(() => {
+    localStorage.setItem('skillbridge_applications', JSON.stringify(myApplications));
+  }, [myApplications]);
 
   useEffect(() => {
     const fetchOpportunities = async () => {
       try {
         setLoading(true);
-        setError(null);
-        
         const res = await fetch('https://jsonplaceholder.typicode.com/users');
-        if (!res.ok) throw new Error('Failed to fetch data from server.');
+        if (!res.ok) throw new Error('Failed to fetch');
         const users = await res.json();
-
         const categories = ['Engineering', 'Design', 'Consulting', 'Security'];
         const apiEnhanced = users.map((user, idx) => ({
           id: `api-${user.id}`,
           title: `${user.company.catchPhrase} Expert`,
-          description: `Remote contract opportunity offered by ${user.company.name} (${user.email}). Specializing in high-performance digital workflows.`,
+          description: `Remote contract offered by ${user.company.name} (${user.email}).`,
           category: categories[idx % categories.length],
           company: user.company.name,
           location: idx % 2 === 0 ? 'Remote (Live API)' : 'Global (Live API)'
         }));
-
         setItems(apiEnhanced);
       } catch (err) {
-        const fallbackData = [
-          { id: 'fb-1', title: 'Senior Cybersecurity Specialist', description: 'Protect cloud infrastructure, audit application vulnerabilities, and implement secure IAM policies.', category: 'Security', company: 'SecurGuard Systems', location: 'On-site (Fallback)' },
-          { id: 'fb-2', title: 'Lead Cloud DevOps Architect', description: 'Design and manage automated CI/CD pipelines, Docker containers, and Kubernetes cluster orchestration.', category: 'Engineering', company: 'CloudScale Global', location: 'Remote (Fallback)' },
-          { id: 'fb-3', title: 'Product Design Lead', description: 'Drive user research cycles, build design systems, and supervise cross-platform UI/UX consistency.', category: 'Design', company: 'PixelCraft Studio', location: 'Hybrid (Fallback)' },
-          { id: 'fb-4', title: 'Enterprise Solutions Consultant', description: 'Bridge client technical requirements with agile engineering squads to deliver robust enterprise solutions.', category: 'Consulting', company: 'Apex Advisory', location: 'Remote (Fallback)' },
-          { id: 'fb-5', title: 'Blockchain Smart Contract Dev', description: 'Write secure Solidity contracts, perform gas optimizations, and manage decentralized web3 protocols.', category: 'Engineering', company: 'BlockChain Labs', location: 'Remote (Fallback)' },
-          { id: 'fb-6', title: 'Information Security Analyst', description: 'Monitor network traffic anomalies, respond to incident alerts, and enforce compliance guidelines.', category: 'Security', company: 'ShieldNet Corp', location: 'Hybrid (Fallback)' }
-        ];
-        setItems(fallbackData);
+        setItems(FALLBACK_OPPORTUNITIES);
       } finally {
         setLoading(false);
       }
     };
-
     fetchOpportunities();
   }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(searchTerm);
-      setCurrentPage(1);
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [searchTerm]);
-
-  const filteredItems = useMemo(() => {
-    return items.filter(item => {
-      const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
-      const searchLower = debouncedSearch.toLowerCase();
-
-      const matchesSearch = 
-        item.title.toLowerCase().includes(searchLower) ||
-        item.description.toLowerCase().includes(searchLower) ||
-        item.category.toLowerCase().includes(searchLower) ||
-        item.company.toLowerCase().includes(searchLower);
-
-      return matchesCategory && matchesSearch;
-    });
-  }, [items, debouncedSearch, selectedCategory]);
-
-  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-  const currentItems = useMemo(() => {
-    const start = (currentPage - 1) * itemsPerPage;
-    return filteredItems.slice(start, start + itemsPerPage);
-  }, [filteredItems, currentPage]);
-
-  const handleCategoryChange = (cat) => {
-    setSelectedCategory(cat);
-    setCurrentPage(1);
+  const addApplication = (newApp) => {
+    setMyApplications(prev => [newApp, ...prev]);
   };
 
   if (loading) {
     return (
       <div className="app-layout">
-        <nav className="navbar" aria-label="Main Navigation">
-          <div className="nav-brand">SkillBridge <span>Explorer</span></div>
-        </nav>
+        <Navbar appCount={myApplications.length} />
         <main className="loading-state">
           <div className="spinner" aria-hidden="true"></div>
-          <p>Loading initial remote opportunities...</p>
+          <p>Loading SkillBridge platform data...</p>
         </main>
+        <Footer />
       </div>
     );
   }
 
   return (
     <div className="app-layout">
-      <nav className="navbar" aria-label="Main Navigation">
-        <div className="nav-brand">SkillBridge <span>Explorer</span></div>
-        <div className="nav-links">
-          <a href="#home" className="active">Home</a>
-          <a href="#explore">Explore</a>
-          <a href="#about">About</a>
-        </div>
-      </nav>
-
+      <Navbar appCount={myApplications.length} />
       <main className="main-container">
-        <header className="explorer-header">
-          <h1>Find Your Next Tech Opportunity</h1>
-          <p>Discover and filter professional tech roles and remote contracts instantly with live API sync.</p>
-        </header>
-
-        <div className="controls-bar">
-          <label htmlFor="search-input" className="sr-only">Search opportunities</label>
-          <input 
-            id="search-input"
-            type="text" 
-            placeholder="Search by keyword, title, company or category..." 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-input"
-            aria-label="Search opportunities by keyword, title, company or category"
-          />
-
-          <div className="category-filters" role="group" aria-label="Category filters">
-            {['All', 'Engineering', 'Design', 'Consulting', 'Security'].map(cat => (
-              <button
-                key={cat}
-                className={`filter-btn ${selectedCategory === cat ? 'active' : ''}`}
-                onClick={() => handleCategoryChange(cat)}
-                aria-pressed={selectedCategory === cat}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Live region to announce results change to screen readers */}
-        <div aria-live="polite" aria-atomic="true">
-          {filteredItems.length === 0 ? (
-            <div className="empty-state">
-              <h3>🔍 No Results Match Your Search</h3>
-              <p>Try adjusting your search keywords or category filters.</p>
-            </div>
-          ) : (
-            <>
-              <div className="listings-grid">
-                {currentItems.map(item => (
-                  <article key={item.id} className="listing-card">
-                    <div className="card-top">
-                      <span className="badge">{item.category}</span>
-                      <span className="location">{item.location}</span>
-                    </div>
-                    <h2>{item.title}</h2>
-                    <p className="company">{item.company}</p>
-                    <p className="desc">{item.description}</p>
-                  </article>
-                ))}
-              </div>
-
-              {totalPages > 1 && (
-                <nav className="pagination" aria-label="Pagination Navigation">
-                  <button 
-                    disabled={currentPage === 1} 
-                    onClick={() => setCurrentPage(p => p - 1)}
-                    className="page-btn"
-                    aria-label="Go to previous page"
-                  >
-                    Previous
-                  </button>
-                  <span>Page {currentPage} of {totalPages}</span>
-                  <button 
-                    disabled={currentPage === totalPages} 
-                    onClick={() => setCurrentPage(p => p + 1)}
-                    className="page-btn"
-                    aria-label="Go to next page"
-                  >
-                    Next
-                  </button>
-                </nav>
-              )}
-            </>
-          )}
-        </div>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/internships" element={<InternshipsPage items={items} />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/opportunities/:id" element={<DetailPage items={items} />} />
+          <Route path="/opportunities/:id/apply" element={<ApplyPage items={items} onApply={addApplication} />} />
+          <Route path="/my-applications" element={<MyApplicationsPage applications={myApplications} />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
       </main>
-
-      <footer className="footer">
-        <p>&copy; 2026 SkillBridge Explorer. All rights reserved. Built with React & Vite.</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
